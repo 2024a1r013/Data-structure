@@ -1,0 +1,260 @@
+#include<stdio.h>//(LAB EXPERIMENT 7)(24 march)
+#include<stdlib.h>
+typedef struct node
+{
+    int data;
+    struct node *next;
+} Node;
+Node* head = NULL;
+Node* createNode(int ele){
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode -> data = ele;
+    newNode -> next = NULL;
+    return newNode;
+}
+
+void insertnodeinbeg(int ele){
+   Node* newNode = createNode(ele);
+    newNode -> next = head;
+    head = newNode;
+    printf("Node Inserted !!!\n");
+}
+void insertnodeinEnd(int ele){
+    Node* newNode = createNode(ele);
+    if(head == NULL){
+        head=newNode;
+    }
+    else{
+        Node* temp =head;
+        while(temp->next != NULL){
+            temp = temp->next;
+        }
+        temp->next=newNode;
+        printf("NODE INSERTED!!");
+    }
+}
+void insertatanypos(int ele, int pos ){
+if(head==NULL){
+    printf("List is empty");
+}
+else if (pos==1)
+{
+    insertnodeinbeg(ele);
+}
+else{
+    Node* temp = head;
+    int i=1;
+    while(i<pos-1 && temp != NULL){
+        temp = temp->next;
+        i++;
+    } 
+    if(temp->next != NULL){
+        Node* newNode = createNode(ele);
+        newNode->next = temp->next;
+        temp->next = newNode;
+        printf("Node Inserted !!!\n");
+    }
+        else{
+            printf("Position not found");
+        }
+}
+}
+void deletnodefeombeg(){
+    if(head==NULL){
+        printf("List is empty");
+    }
+    else{
+        Node* temp =head;
+        head= head->next;
+        free(temp);
+        printf("Node Deleted");
+    }
+}
+void deletenodefromend(){
+    if(head==NULL){
+        printf("List is empty");
+    }
+    else if(head->next==NULL){
+        Node* t= head;
+        head = NULL;
+        free(t);
+        printf("Node Deleted");
+    }
+    else{
+        Node* temp = head;
+        while(temp->next!=NULL && temp ->next->next != NULL){
+            temp = temp->next;
+        }
+        Node* t= temp->next;
+        temp->next = NULL;
+        free(t);}
+        printf("Node Deleted");
+}
+
+void deletenodefromanypos(int pos){
+if(head==NULL){
+    printf("List is empty");
+}
+else if(pos==1){
+    deletnodefeombeg();
+}
+else{
+    Node* temp = head;
+    int i=1;
+    while(i<pos-1 && temp->next != NULL){
+        i++;
+        temp = temp->next;
+    }
+    if(temp->next != NULL && i>0){
+        Node* t = temp->next;
+        temp->next = temp->next->next;
+        free(t);
+        printf("Node Deleted !!!\n");
+    }
+    else{
+        printf("Position not found");
+    }   
+}
+}
+void search(int ele){
+    if(head == NULL)
+        printf("List is Empty !!!\n");
+    else{
+        Node* temp = head;
+        while(temp != NULL)
+        {
+            if(temp->data == ele){
+                printf("Element found\n");
+                return;
+            }
+            temp = temp->next;
+        }
+        printf("Element not found !!!\n");
+    }
+}
+void sort(){
+    Node *last = NULL;
+    for(Node* i = head; i !=NULL; i = i->next){
+        Node *j;
+        for(Node* j = head; j->next != last; j = j->next){
+            if(j->data > j->next->data){
+                int temp = j->data;
+                j->data = j->next->data;
+                j->next->data = temp;
+
+            }
+        }
+        last = j;
+    
+
+    }
+}
+
+void Display(){
+    if(head == NULL)
+        printf("List is Empty !!!\n");
+    else{
+        Node* temp = head;
+        printf("List Elememts are : ");
+        while(temp != NULL)
+        {
+            printf("%d ",temp-> data);
+            temp = temp->next;
+        }
+    
+    }
+}
+void sort() {
+    if (head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    int swapped;
+    Node* ptr1;
+    Node* lptr = NULL;
+
+    do {
+        swapped = 0;
+        ptr1 = head;
+
+        while (ptr1->next != lptr) {
+            if (ptr1->data > ptr1->next->data) {
+                int temp = ptr1->data;
+                ptr1->data = ptr1->next->data;
+                ptr1->next->data = temp;
+                swapped = 1;
+            }
+            ptr1 = ptr1->next;
+        }
+        lptr = ptr1;
+    } while (swapped);
+
+    printf("List Sorted !!!\n");
+}
+
+int main(){
+    while(1) {
+        printf("-------Singly Linked List-------\n");
+        printf("1. Insert Node In Beginning\n");
+        printf("2. Insert Node At End\n");
+        printf("3. Insert Node At Any Position\n");
+        printf("4. Delete Node From Beginning\n");
+        printf("5. Delete Node From End\n");
+        printf("6. Delete Node From Any Position\n");
+        printf("7. Search Element In List\n");
+        printf("8. Sort Elements\n");
+        printf("9. Display List\n");
+        printf("10. Exit\n");
+    
+        int choice,value,pos;
+        printf("Enter Choice : ");
+        scanf("%d",&choice);
+        switch(choice){
+            case 1:
+                printf("Enter Value : ");
+                scanf("%d",&value);
+                insertnodeinbeg(value);
+                break;
+            case 2:
+            printf("Enter Value : ");
+            insertnodeinEnd(value);
+            scanf("%d",&value);
+                break;
+            case 3:
+            printf("Enter Value : ");
+            scanf("%d",&value);
+            printf("Enter position: ");
+            scanf("%d",&pos);
+            insertatanypos(value,pos);
+                break;
+            case 4:
+            deletnodefeombeg();
+                break;
+            case 5:
+            deletenodefromend();
+                break;
+            case 6:
+            printf("Enter position: ");
+            scanf("%d",&pos);
+            deletenodefromanypos(pos);
+            break;
+            case 7:
+            printf("Enter Value : ");
+            scanf("%d",&value);
+            search(value);
+                break;
+            case 8:
+                break;
+            case 9:
+                Display();
+                break;
+            case 10:
+                exit(0);
+            default:
+                printf("Invalid Choice !!!\n");
+        }
+        printf("\n");
+    }
+    return 0;
+}
